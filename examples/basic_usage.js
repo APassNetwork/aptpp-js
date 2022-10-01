@@ -19,7 +19,7 @@ const { AptDomain } = require('../dist/index');
 	let { domain } = await aptdomain.reverse( test_address );
 	console.log( `[promise] ${test_address} => ${domain}` );
 
-	let data = await aptdomain.getDomainData(test_domain);
+	let data = await aptdomain.getDomainRecord(test_domain);
 	console.log( `[promise] ${test_domain} => ${JSON.stringify(data,null,'  ')}` );
 
 	///////////////////////////////////////////
@@ -32,7 +32,7 @@ const { AptDomain } = require('../dist/index');
 		console.log( `[callback] ${test_address} => ${domain}` );
 	});
 
-	aptdomain.getDomainData(test_domain,(status,data)=>{
+	aptdomain.getDomainRecord(test_domain,(status,data)=>{
 		console.log( `[callback] ${test_domain} => ${JSON.stringify(data,null,'  ')}` );
 	});
 	
