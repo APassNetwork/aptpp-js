@@ -1,9 +1,5 @@
 # SDK for Aptos Passport (APTPP)
 
-[![Discord][discord-image]][discord-url]
-[![NPM Package Version][npm-image-version]][npm-url]
-[![NPM Package Downloads][npm-image-downloads]][npm-url]
-
 ## Install
 ```
 npm install aptpp-js 
