@@ -1,4 +1,4 @@
-# Javascript SDK for Aptos Passport (APTPP)
+# SDK for Aptos Passport (APTPP)
 
 [![Discord][discord-image]][discord-url]
 [![NPM Package Version][npm-image-version]][npm-url]
