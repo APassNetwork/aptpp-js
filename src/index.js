@@ -152,8 +152,8 @@ class AptDomain {
 		return ret;
 	}
 
-	//get all data from domain
-	async getDomainData(domain, cb) {
+	//get all records from domain
+	async getDomainRecord(domain, cb) {
 		try {
 			let globalmap = await this._get_globalmap();
 
@@ -167,7 +167,7 @@ class AptDomain {
 
 			if (!domainObject) {
 				if (cb) cb(ErrorNotFound, null);
-				return { status: ErrorNotFound, data: null };
+				return { status: ErrorNotFound, record: null };
 			}
 
 			try {
@@ -179,7 +179,7 @@ class AptDomain {
 			} catch (e) {
 				if (e.status == ErrorNotFound) {
 					if (cb) cb(ErrorNotFound, null);
-					return { status: ErrorNotFound, data: null };
+					return { status: ErrorNotFound, record: null };
 				}
 
 				console.error(e);
@@ -188,15 +188,15 @@ class AptDomain {
 			domainObject = this.format_domain_data(domainObject);
 
 			if (cb) cb(ErrorOkay, domainObject);
-			return { status: ErrorOkay, data: domainObject };
+			return { status: ErrorOkay, record: domainObject };
 		} catch (e) {
 			if (e.status == ErrorNotFound) {
 				if (cb) cb(ErrorNotFound, null);
-				return { status: ErrorNotFound, data: null };
+				return { status: ErrorNotFound, record: null };
 			}
 			console.error(e);
 		}
-		return { status: ErrorUnknow, data: null };
+		return { status: ErrorUnknow, record: null };
 	}
 
 }
