@@ -39,7 +39,7 @@ console.log( `${test_domain} => ${address}` );
 let { domain } = await aptdomain.reverse( test_address );
 console.log( `${test_address} => ${domain}` );
 
-let data = await aptdomain.getDomainData(test_domain);
+let data = await aptdomain.getDomainRecord(test_domain);
 console.log( `${test_domain} => ${JSON.stringify(data,null,'  ')}` );
 
 ```
@@ -54,7 +54,7 @@ aptdomain.reverse(test_address,(status,domain)=>{
 	console.log( `${test_address} => ${domain}` );
 });
 
-aptdomain.getDomainData(test_domain,(status,data)=>{
+aptdomain.getDomainRecord(test_domain,(status,data)=>{
 	console.log( `${test_domain} => ${JSON.stringify(data,null,'  ')}` );
 });
 ```
