@@ -24,7 +24,7 @@ class AptDomain {
 
 		//Init handles
 		this._client = new AptosClient(this._nodeUrl, opts.aptosClientConfig);
-		this._tokenClient = new TokenClient(this._tokenClient);
+		this._tokenClient = new TokenClient(this._client);
 		this._globalMap = null;
 	}
 
