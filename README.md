@@ -6,7 +6,7 @@ npm install aptpp-js
 ```
 or
 ```
-yarn aptpp-js
+yarn add aptpp-js
 ```
 
 ## Usage
