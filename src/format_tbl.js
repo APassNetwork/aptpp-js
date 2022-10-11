@@ -1,12 +1,34 @@
 'use strict';
 
-const GroupList = ['address', 'txt', 'sns'];
+const GroupList = ['address', 'dns', 'txt', 'sns'];
 
 const FieldFormatTable = {
 
 	1: {
 		group: 'address',
 		name: 'APT',
+		type: 'string'
+	},
+		
+	//////////////////////////////////
+	400: {
+		group: 'dns',
+		name: 'A Record',
+		type: 'string'
+	},
+	401: {
+		group: 'dns',
+		name: 'CNAME Record',
+		type: 'string'
+	},
+	402: {
+		group: 'dns',
+		name: 'TXT Record',
+		type: 'string'
+	},
+	403: {
+		group: 'dns',
+		name: 'IPFS CID',
 		type: 'string'
 	},
 	//////////////////////////////////

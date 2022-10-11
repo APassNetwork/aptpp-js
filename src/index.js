@@ -3,9 +3,6 @@
 // External Deps
 const { AptosClient, TokenClient, HexString } = require("aptos");
 const { GroupList, FieldFormatTable } = require("./format_tbl");
-//import {AptosClient, TokenClient, HexString} from "aptos";
-//import {GroupList,FieldFormatTable} from "./format_tbl";
-
 
 // Const
 const DEFAULT_NODE_URL = 'https://fullnode.testnet.aptoslabs.com';
@@ -15,6 +12,35 @@ const BASE_SUFFIX = '.apt';
 const ErrorOkay = 200;
 const ErrorNotFound = 404;
 const ErrorUnknow = 500;
+
+class AptDomainObject {
+	constructor(records) {
+		this.records=records?records:{};
+		this.fields={};
+		
+		if( this.records && this.records.data && this.records.data.data ){
+			for( let cur of this.records.data.data ){
+				this.fields[cur.name]=cur.value;
+			}
+		}
+	}
+	
+	address()	{return this.record('APT');}
+	avatar()	{return this.record('avatar')}
+	url()		{return this.record('url')}
+	email()		{return this.record('email')}
+	
+	discord()	{return this.record('com.discord')}
+	github()	{return this.record('com.github')}
+	reddit()	{return this.record('com.reddit')}
+	twitter()	{return this.record('com.twitter')}
+	telegram()	{return this.record('com.telegram')}
+
+	record(name){
+		return this.fields[name]?this.fields[name]:'';
+	}
+
+}
 
 class AptDomain {
 
@@ -152,6 +178,18 @@ class AptDomain {
 		return ret;
 	}
 
+	async getDomainObj(domain, cb) {
+		if( cb ){
+			await this.getDomainRecord(domain,function(ret){
+				cb( new AptDomainObject(ret.record) );
+			});
+		}
+		else{
+			let ret=await this.getDomainRecord(domain);
+			return new AptDomainObject(ret.record);
+		}
+	}
+
 	//get all records from domain
 	async getDomainRecord(domain, cb) {
 		try {
@@ -202,5 +240,6 @@ class AptDomain {
 }
 
 module.exports = {
-	AptDomain
+	AptDomain,
+	AptDomainObject
 };
