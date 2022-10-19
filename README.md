@@ -15,8 +15,9 @@ yarn add aptpp-js
 const { AptDomain } = require('aptpp-js');
 
 // opts format:
-//     nodeUrl : string              // Node Url, for example 'https://fullnode.devnet.aptoslabs.com'
-//     contractAddress : string      // Contract address is '0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e'
+//     nodeUrl : string              // Node Url, for example 'https://fullnode.mainnet.aptoslabs.com'
+//     contractAddress : string      // The Mainnet Contract address is '0x0000777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb'
+				     // The Testnet or Devnet Contract address is '0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e'
 //     aptosClientConfig : object
 
 let opts={};
@@ -27,8 +28,8 @@ let aptdomain=new AptDomain(opts);
 
 You can using in Promise:
 ```
-const test_domain = 'test007.apt';
-const test_address = '0xfee337d85041f23e4ce1964128034c67ccfe51de731aa331a8f1fa2abf51ac3d';	
+const test_domain = 'test007@apt';
+const test_address = '0x5e0c91adbe365dca24d1565b434b04c79e17823a1c6db299ba291fc7e86325e6';	
 
 let { address } = await aptdomain.lookup( test_domain);
 console.log( `${test_domain} => ${address}` );
