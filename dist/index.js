@@ -6,8 +6,8 @@ const { AptosClient, TokenClient, HexString } = require("aptos");
 const { GroupList, FieldFormatTable } = require("./format_tbl");
 
 // Const
-const DEFAULT_NODE_URL = 'https://fullnode.testnet.aptoslabs.com';
-const BASE_CONTRACT_ADDRESS = '0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e';
+const DEFAULT_NODE_URL = 'https://fullnode.mainnet.aptoslabs.com';
+const BASE_CONTRACT_ADDRESS = '0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb';
 const BASE_SUFFIX = '@apt';
 
 const ErrorOkay = 200;

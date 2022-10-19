@@ -3,15 +3,25 @@ const { AptDomain } = require('../src/index');
 (async()=>{
 	
 	let opt={
+		// for mainnet
+		//nodeUrl:'https://fullnode.mainnet.aptoslabs.com',
+		//contractAddress:'0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb',
+
+		// for testnet
+		//nodeUrl:'https://fullnode.testnet.aptoslabs.com',
+		//contractAddress:'0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e',
+
+		// for devtest
 		//nodeUrl:'https://fullnode.devnet.aptoslabs.com',
 		//contractAddress:'0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e',
+
 		//aptosClientConfig:{},
 	};
 
 	let aptdomain=new AptDomain(opt);
 
 	const test_domain = 'test007@apt';
-	const test_address = '0x879b4e92b720ead64a8218e9b4cced26825e88e9923ef8b5eb4d610967433c45';
+	const test_address = '0x5e0c91adbe365dca24d1565b434b04c79e17823a1c6db299ba291fc7e86325e6';
 	
 	///////////////////////////////////////////
     // basic using on promise
