@@ -53,7 +53,7 @@ const FieldFormatTable = {
 		name: 'Solana',
 		type: 'string'
 	},
-	/*	104:{
+	/*104:{
  		group:'address',
  		name:'Avalanche',
  		type:'string'

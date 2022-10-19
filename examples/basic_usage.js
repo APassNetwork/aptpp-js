@@ -10,8 +10,8 @@ const { AptDomain } = require('../src/index');
 
 	let aptdomain=new AptDomain(opt);
 
-	const test_domain = 'test007.apt';
-	const test_address = '0xfee337d85041f23e4ce1964128034c67ccfe51de731aa331a8f1fa2abf51ac3d';
+	const test_domain = 'test007@apt';
+	const test_address = '0x879b4e92b720ead64a8218e9b4cced26825e88e9923ef8b5eb4d610967433c45';
 	
 	///////////////////////////////////////////
     // basic using on promise

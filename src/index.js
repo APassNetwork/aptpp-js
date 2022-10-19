@@ -7,7 +7,7 @@ const { GroupList, FieldFormatTable } = require("./format_tbl");
 // Const
 const DEFAULT_NODE_URL = 'https://fullnode.testnet.aptoslabs.com';
 const BASE_CONTRACT_ADDRESS = '0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e';
-const BASE_SUFFIX = '.apt';
+const BASE_SUFFIX = '@apt';
 
 const ErrorOkay = 200;
 const ErrorNotFound = 404;
@@ -57,7 +57,7 @@ class AptDomain {
 	}
 
 	_process_domain(domain) {
-		return domain ? domain.toLowerCase().replace(BASE_SUFFIX, '') : '';
+		return domain ? domain.toLowerCase().replace('.apt', '').replace(BASE_SUFFIX, '') : '';
 	}
 
 	format_domain_data(cur) {
