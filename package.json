@@ -1,6 +1,6 @@
 {
   "name": "aptpp-js",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "aptos passport js sdk",
   "main": "dist/index.js",
   "scripts": {

@@ -5,11 +5,9 @@ const { AptosClient, TokenClient, HexString } = require("aptos");
 const { GroupList, FieldFormatTable } = require("./format_tbl");
 
 // Const
-const DEFAULT_NODE_URL = 'https://fullnode.mainnet.aptoslabs.com';
-const BASE_CONTRACT_ADDRESS = '0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb';
 const BASE_SUFFIX = '@apt';
 
-const ErrorOkay = 200;
+const Okay = 200;
 const ErrorNotFound = 404;
 const ErrorUnknow = 500;
 
@@ -47,8 +45,33 @@ class AptDomain {
 	constructor(opts = {}) {
 
 		//Init params
-		this._nodeUrl = opts && opts.nodeUrl ? opts.nodeUrl : DEFAULT_NODE_URL;
-		this._contractAddress = opts && opts.contractAddress ? opts.contractAddress : BASE_CONTRACT_ADDRESS;
+		this._network = opts && opts.network ? opts.network : 'mainnet';
+
+		switch( this._network ){
+		case	'mainnet':
+			this._nodeUrl='https://fullnode.mainnet.aptoslabs.com';
+			this._contractAddress='0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb';
+			break;
+		case	'testnet':
+			this._nodeUrl='https://fullnode.testnet.aptoslabs.com';
+			this._contractAddress='0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e';
+			break;
+		case	'devnet':
+			this._nodeUrl='https://fullnode.devnet.aptoslabs.com';
+			this._contractAddress='0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e';
+			break;
+		default:
+			console.warn(`AptDomain: Unknow Network setting on ${this._network} `);
+			break;
+		}
+
+		if( opts && opts.nodeUrl ){
+			this._nodeUrl = opts.nodeUrl;
+		}
+
+		if( opts && opts.contractAddress ){
+			this._contractAddress = opts.contractAddress;
+		}
 
 		//Init handles
 		this._client = new AptosClient(this._nodeUrl, opts.aptosClientConfig);
@@ -58,6 +81,14 @@ class AptDomain {
 
 	_process_domain(domain) {
 		return domain ? domain.toLowerCase().replace('.apt', '').replace(BASE_SUFFIX, '') : '';
+	}
+
+	_isAddress(val) {
+		return val?(val.startsWith('0x') && val.length>=20):false;
+	}
+
+	_isAptDomain(val) {
+		return val?val.toLowerCase().endsWith(BASE_SUFFIX):false;
 	}
 
 	format_domain_data(cur) {
@@ -122,6 +153,13 @@ class AptDomain {
 
 	//domain => address
 	async lookup(domain, cb) {
+
+		if( this._isAddress(domain) ){
+			let ret = { status: 200, address: domain };
+			if(cb) cb(ret);
+			return ret;
+		}
+
 		let ret = { status: ErrorUnknow, address: null };
 
 		try {
@@ -140,7 +178,7 @@ class AptDomain {
 				ret = { status: ErrorNotFound, address: null };
 			} else {
 				//found
-				ret = { status: 200, address: addr };
+				ret = { status: Okay, address: addr };
 			}
 		} catch (e) {
 			//not found
@@ -152,6 +190,13 @@ class AptDomain {
 
 	//address => domain
 	async reverse(address, cb) {
+
+		if( this._isAptDomain(address) ){
+			let ret = { status: Okay, domain: address };
+			if(cb) cb(ret);
+			return ret;
+		}
+
 		let ret = { status: ErrorUnknow, domain: null };
 
 		try {
@@ -168,7 +213,7 @@ class AptDomain {
 				ret = { status: ErrorNotFound, name: null };
 			} else {
 				let namt_str = Buffer.from(new HexString(name).toUint8Array()).toString();
-				if (namt_str == "") ret = { status: 502, domain: null };else ret = { status: 200, domain: namt_str + BASE_SUFFIX };
+				if (namt_str == "") ret = { status: 502, domain: null };else ret = { status: Okay, domain: namt_str + BASE_SUFFIX };
 			}
 		} catch (e) {
 			//not found
@@ -177,16 +222,29 @@ class AptDomain {
 		if (cb) cb(ret.status, ret.domain);
 		return ret;
 	}
+	
+	async getDomainObj(domain_or_address, cb) {
+		
+		let ret = await this.reverse(domain_or_address);
 
-	async getDomainObj(domain, cb) {
+		if( !ret || ret.status!=Okay )
+			return null;
+
+		let domain=ret.domain;
+
 		if( cb ){
 			await this.getDomainRecord(domain,function(ret){
-				cb( new AptDomainObject(ret.record) );
+				if( ret.status==Okay && ret.record )
+					cb( new AptDomainObject(ret.record) );
+				else
+					cb( null );
 			});
 		}
 		else{
 			let ret=await this.getDomainRecord(domain);
-			return new AptDomainObject(ret.record);
+			if( ret.status==Okay && ret.record )
+				return new AptDomainObject(ret.record);
+			return null;
 		}
 	}
 
@@ -225,8 +283,8 @@ class AptDomain {
 
 			domainObject = this.format_domain_data(domainObject);
 
-			if (cb) cb(ErrorOkay, domainObject);
-			return { status: ErrorOkay, record: domainObject };
+			if (cb) cb(Okay, domainObject);
+			return { status: Okay, record: domainObject };
 		} catch (e) {
 			if (e.status == ErrorNotFound) {
 				if (cb) cb(ErrorNotFound, null);

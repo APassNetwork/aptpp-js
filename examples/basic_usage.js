@@ -3,6 +3,14 @@ const { AptDomain } = require('../src/index');
 (async()=>{
 	
 	let opt={
+		//
+		// set network 'mainnet' / 'testnet' / 'devnet', default: 'mainnet' 
+		//
+		network: 'testnet'
+
+		//
+		// Or you can set the node url and contract address
+		//
 		// for mainnet
 		//nodeUrl:'https://fullnode.mainnet.aptoslabs.com',
 		//contractAddress:'0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb',
@@ -14,7 +22,10 @@ const { AptDomain } = require('../src/index');
 		// for devtest
 		//nodeUrl:'https://fullnode.devnet.aptoslabs.com',
 		//contractAddress:'0x7ce77452da809fbc4ef32596cf2be18ec6f252e1884b4eefa4d4349c2941923e',
-
+		
+		//
+		// aptos client config
+		//
 		//aptosClientConfig:{},
 	};
 
@@ -53,24 +64,27 @@ const { AptDomain } = require('../src/index');
 	///////////////////////////////////////////
 	// domain object
 
-	let domainObj = await aptdomain.getDomainObj(test_domain);
+	// request a domain object by addres or domain 
+	// if domain not exist , return null
 
-	//console.log(domain);
+	let domainObj = await aptdomain.getDomainObj(test_address);
 
-	console.log("domainObj.address(): ",		domainObj.address());
-	console.log("domainObj.avatar(): ",			domainObj.avatar());
-	console.log("domainObj.url(): ",			domainObj.url());
-	console.log("domainObj.email(): ",			domainObj.email());
-	
-	console.log("domainObj.discord(): ",		domainObj.discord());
-	console.log("domainObj.github(): ",			domainObj.github());
-	console.log("domainObj.reddit(): ",			domainObj.reddit());
-	console.log("domainObj.twitter(): ",		domainObj.twitter());
-	console.log("domainObj.telegram(): ",		domainObj.telegram());
+	if( domainObj ){
+		console.log("domainObj.address(): ",		domainObj.address());
+		console.log("domainObj.avatar(): ",			domainObj.avatar());
+		console.log("domainObj.url(): ",			domainObj.url());
+		console.log("domainObj.email(): ",			domainObj.email());
+		
+		console.log("domainObj.discord(): ",		domainObj.discord());
+		console.log("domainObj.github(): ",			domainObj.github());
+		console.log("domainObj.reddit(): ",			domainObj.reddit());
+		console.log("domainObj.twitter(): ",		domainObj.twitter());
+		console.log("domainObj.telegram(): ",		domainObj.telegram());
 
-	console.log("domainObj.record('APT'): ",	domainObj.record('APT'));
-	console.log("domainObj.record('ETH'): ",	domainObj.record('ETH'));
-	console.log("domainObj.record('BTC'): ",	domainObj.record('BTC'));
-	console.log("domainObj.record('Solana'): ",	domainObj.record('Solana'));
+		console.log("domainObj.record('APT'): ",	domainObj.record('APT'));
+		console.log("domainObj.record('ETH'): ",	domainObj.record('ETH'));
+		console.log("domainObj.record('BTC'): ",	domainObj.record('BTC'));
+		console.log("domainObj.record('Solana'): ",	domainObj.record('Solana'));
+	}
     
 })();
