@@ -99,7 +99,7 @@ class AptDomain {
 	}
 
 	_process_domain(domain) {
-		return domain ? domain.toLowerCase().replace('.apt', '').replace(BASE_SUFFIX, '') : '';
+		return domain ? domain.toLowerCase().replace(BASE_SUFFIX, '') : '';
 	}
 
 	_isAddress(val) {
@@ -141,9 +141,18 @@ class AptDomain {
 		}
 
 		if (cur.nft_meta) {
-			for (let dt of cur.nft_meta.default_properties.map.data) {
-				if (dt.key == "creator") {
-					cur.creator = Buffer.from(new HexString(dt.value.value).toUint8Array()).toString();
+			if (typeof cur.nft_meta.default_properties.map != "undefined") {
+				for (let dt of cur.nft_meta.default_properties.map.data) {
+					if (dt.key == "creator") {
+						cur.creator = Buffer.from(new HexString(dt.value.value).toUint8Array()).toString();
+					}
+				}
+			} else {
+				for (let key in cur.nft_meta.default_properties.data) {
+					if (key == "creator") {
+						let value = cur.nft_meta.default_properties.data[key];
+						cur.creator = Buffer.from(new HexString(value.value).toUint8Array()).toString();
+					}
 				}
 			}
 		}
